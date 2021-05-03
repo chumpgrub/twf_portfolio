@@ -1,0 +1,83 @@
+@import "../../scss/vars";
+
+.menu {
+  margin: 0;
+  padding: 0;
+
+
+  &--primary {
+    display: flex;
+    margin: 2rem -10px 0;
+    padding: 0;
+  }
+
+  li {
+    list-style: none;
+  }
+
+}
+
+.menuItem {
+  padding: 1rem;
+
+  a {
+    text-transform: uppercase;
+    font-size: 18px;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+
+    &:hover {
+      color: rgb(123, 211, 240);
+    }
+  }
+
+  &__wrap {
+    display: flex;
+    align-items: center;
+  }
+  
+
+  &--hasChildren {
+    position: relative;
+
+    .subMenu {
+      position: absolute;
+      height: 0;
+      top: 100%;
+      left: 1rem;
+      right: 1rem;
+      display: block;
+      opacity: 0;
+      margin: 0;
+      background: white;
+      border: 1px dashed;
+
+      &--active {
+        padding: .5rem 0;
+        height: auto;
+        opacity: 1;
+      }
+
+      .menuItem {
+        padding: 0;
+        
+        a {
+          display: block;
+          width: 100%;
+          padding: .5rem 1rem;
+        }
+      }
+    }
+  }
+
+  &__toggle {
+    margin-left: .6rem;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+
+    &:hover {
+      transform: rotate(45deg);
+    }
+  }
+}

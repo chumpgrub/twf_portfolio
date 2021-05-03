@@ -1,0 +1,35 @@
+form {
+  margin: 3rem 0;
+
+  button {
+    margin-left: 100px;
+  }
+}
+
+.formRow {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+
+  &.error {
+
+    .formInput {
+      border-color: red;
+    }
+  }
+
+  label {
+    margin: 0;
+    padding: 0;
+    flex: 0 0 100px;
+
+    + .formInput {
+      flex: 0 0 calc(100% - 110px);
+    }
+  }
+
+}
+
+.formInput {
+  border: 1px solid black;
+}

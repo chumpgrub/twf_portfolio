@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
+    title: `PhotoLicker`,
     description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
     author: `@gatsbyjs`,
   },
@@ -50,5 +50,15 @@ module.exports = {
         url: `https://twf.markfurrow.com/graphql`,
       },
     },
+    {
+      // @see: https://stackoverflow.com/questions/57784020/auto-import-sass-partials-in-every-stylesheet-configutation
+      resolve: `gatsby-plugin-sass`,
+      options: {
+        sassOptions: {
+          includePaths: ["src/scss/vars", "src/scss"],
+        }
+        // additionalData: `@import "${__dirname}/src/scss/vars";`,
+      }
+    }
   ],
 }
