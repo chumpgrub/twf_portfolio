@@ -109,7 +109,8 @@ const ContactForm = () => {
     email: {value: '', error: false},
     phone: {value: '', error: false},
     interest: {value: [], error: false},
-    message: {value: '', error: false}
+    message: {value: '', error: false},
+    isSpam: false
   })
 
   const handleChange = (event) => {
@@ -132,6 +133,7 @@ const ContactForm = () => {
       }
     }
     
+    // Update state.
     setState({ ...state,
       [`${name}`]: {
         value: (type === 'checkbox') ? interests : value,
@@ -146,10 +148,13 @@ const ContactForm = () => {
     // Check for errors before submitting.
     const errors = Object.values(state).filter( field => field.error === true)
 
-    const { name, email, phone, interest, message } = state
+    const { name, email, phone, interest, message, isSpam } = state
+
+    // Bail if set.
+    if (isSpam) return
 
     if (errors.length > 0) {
-      alert('errors')
+      console.log(errors)
     } else {
 
       // Build array of objects expected by Gravity Forms.
@@ -171,31 +176,21 @@ const ContactForm = () => {
     }
   }
 
-  // console.log(fields)
-
   return (
     <Mutation mutation={CONTACT_MUTATION}>
       {(submitGravityFormsForm, { loading, error, data }) => {
-        console.log(loading)
-        console.log(error)
-        console.log(data)
 
+        // For loading message while submitting.
         if (loading) {
-          return (<div>Submiting form...</div>)
+          return (<div className="formResponse formResponse--loading">Submiting form...</div>)
         }
 
-        console.log(data && data?.submitGravityFormsForm?.errors)
-
-        
-
+        // If server response has no errors, we're assuming success.
         if (data && !data?.submitGravityFormsForm?.errors) {
           return (
-            <div>Thank you!</div>
+            <div className="formResponse formResponse--thankYou">Thank you!</div>
           )
         }
-
-        // const { submitGravityFormsForm: { errors } } = data
-        // console.log(errors)
 
         return (
           <form onSubmit={(e) => handleSubmit(e, submitGravityFormsForm)}>
@@ -218,6 +213,15 @@ const ContactForm = () => {
               )
               
             })}
+            <input 
+              type="checkbox" 
+              name="email_me_right_now" 
+              value="1" 
+              style={{display:'none'}} 
+              tabindex="-1" 
+              autocomplete="off"
+              onChange={() => setState({...state, isSpam: true})}
+            />
             <button>Get in touch</button>
           </form>
         )

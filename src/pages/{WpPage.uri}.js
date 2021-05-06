@@ -21,7 +21,7 @@ const Photo = ({data}) => {
     <Layout>
       <h1>{title}</h1>
       <div dangerouslySetInnerHTML={{__html: content}}/>
-      { slug === 'contact' && <ContactForm/> }
+      { slug === 'book' && <ContactForm/> }
     </Layout>
   )
 }

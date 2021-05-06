@@ -7,7 +7,7 @@ import PrimaryMenu from "../PrimaryMenu"
 import "./Header.scss"
 
 const Header = ({ siteTitle }) => (
-  <header className="siteHeader">
+  <header className="siteHeader container">
     <div className="siteHeader__logo">
       ---------------------------------<br/>
       ---------------------------------<br/>

@@ -1,8 +1,15 @@
 .siteHeader {
-  padding: 2rem 3rem;
+
+  &.container {
+    padding: 2rem 3rem;
+  }
 
   &__logo a {
     text-decoration: none;
+    text-transform: uppercase;
   }
 
 }
+
+
+  

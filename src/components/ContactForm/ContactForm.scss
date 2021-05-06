@@ -1,15 +1,24 @@
-form {
+form,
+.formResponse {
   margin: 3rem 0;
 
   button {
-    margin-left: 100px;
+    border: 1px solid black;
+    background: black;
+    padding: 0.5rem;
+    color: #fff;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    &:hover {
+      background: #fff;
+      color: #000;
+    }
   }
 }
 
 .formRow {
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 
   &.error {
 
@@ -19,17 +28,52 @@ form {
   }
 
   label {
-    margin: 0;
+    display: block;
+    margin: 0 0 .3rem 0;
     padding: 0;
-    flex: 0 0 100px;
 
-    + .formInput {
-      flex: 0 0 calc(100% - 110px);
+    + .inputWrapper {
+
+      input[type=text],
+      input[type=email],
+      textarea {
+        width: 100%;
+        max-width: 600px;
+        padding: 0.5rem;
+      }
+
+      textarea {
+        min-height: 200px;
+      }
     }
+  }
+
+  &--checkbox > label {
+    margin-bottom: 1rem;
   }
 
 }
 
 .formInput {
   border: 1px solid black;
+}
+
+.checkBox {
+  display: flex;
+  align-items: center;
+
+  + .checkBox {
+    margin-top: .3rem;
+  }
+
+  input {
+    position: relative;
+    top: 2px;
+    margin: 0 10px 0 0;
+  }
+
+  label {
+    font-size: 0.9rem;
+    flex: 0 0 auto;
+  }
 }

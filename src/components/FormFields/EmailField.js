@@ -6,13 +6,15 @@ const EmailField = ({ id, label, error, required, handleChange }) => {
   return (
     <div className={`formRow formRow--email ${setRequired} ${setError}`}>
       <label htmlFor={id}>{label}{required && <span>*</span>}</label>
-      <input 
-        className={`formInput`}
-        name={id} 
-        type="email"
-        required={setRequired}
-        onBlur={(e) => handleChange(e)}
-      />
+      <div className="inputWrapper">
+        <input 
+          className={`formInput`}
+          name={id} 
+          type="email"
+          required={setRequired}
+          onBlur={(e) => handleChange(e)}
+        />
+      </div>
     </div>
   )
 }

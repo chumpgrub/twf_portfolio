@@ -5,18 +5,20 @@ const CheckboxField = ({ id, label, error, required, choices, handleChange }) =>
   const setError = error ? 'error' : ''
   console.log(choices)
   return (
-    <div className={`formRow formRow--text ${setRequired} ${setError}`}>
-      <h6 className="test">{label}{required && <span>*</span>}</h6>
-      { choices && choices.map( ({text, value}, index) => {
-        return (
-          <div key={index} className="checkBox">
-            <label>
-              <input type="checkbox" value={value} onChange={(e) => handleChange(e)}/>
-              {text}
-            </label>
-          </div>
-        )
-      })}
+    <div className={`formRow formRow--checkbox ${setRequired} ${setError}`}>
+      <label className="test">{label}{required && <span>*</span>}</label>
+      <div className="inputWrapper">
+        { choices && choices.map( ({text, value}, index) => {
+          return (
+            <div key={index} className="checkBox">
+              <label>
+                <input type="checkbox" value={value} onChange={(e) => handleChange(e)}/>
+                {text}
+              </label>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }

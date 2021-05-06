@@ -5,14 +5,16 @@
  * See: https://www.gatsbyjs.com/docs/use-static-query/
  */
 
-import * as React from "react"
+import React, { useEffect } from "react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
 
 import Header from "../Header"
+import Footer from "../Footer"
 import "./Layout.scss"
 
 const Layout = ({ children }) => {
+
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -23,20 +25,22 @@ const Layout = ({ children }) => {
     }
   `)
 
+  useEffect(() => {
+    // Disable right-click for images.
+    document.addEventListener( 'contextmenu', (e) => {
+      if (e.target.tagName === 'IMG') {
+        e.preventDefault()
+        e.stopPropagation()
+      }
+    })
+  })
+
   return (
     <>
       <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
-      <div>
+      <div className="container">
         <main>{children}</main>
-        <footer
-          style={{
-            marginTop: `2rem`,
-          }}
-        >
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.com">Gatsby</a>
-        </footer>
+        <Footer/>
       </div>
     </>
   )

@@ -1,0 +1,16 @@
+.portfolio {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin: 3rem 0;
+
+  @media screen and (min-width: 800px) {
+    grid-template-columns: repeat(3, 1fr);  
+  }
+}
+
+.portfolioImage {
+  &--featured {
+    grid-column: 1 / 4;
+  }
+}

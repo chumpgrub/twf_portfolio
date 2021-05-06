@@ -6,13 +6,15 @@ const TextareaField = ({ id, label, error, required, handleKeyUp, handleChange }
   return (
     <div className={`formRow formRow--textarea ${setRequired} ${setError}`}>
       <label htmlFor={id}>{label}{required && <span>*</span>}</label>
-      <textarea
-        className={`formInput`}
-        name={id}
-        required={setRequired}
-        // onKeyUpCapture={(e) => handleKeyUp(e)}
-        onBlur={(e) => handleChange(e)}
-      ></textarea>
+      <div className="inputWrapper">
+        <textarea
+          className={`formInput`}
+          name={id}
+          required={setRequired}
+          // onKeyUpCapture={(e) => handleKeyUp(e)}
+          onBlur={(e) => handleChange(e)}
+        ></textarea>
+      </div>
     </div>
   )
 }
