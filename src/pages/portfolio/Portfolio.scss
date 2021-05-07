@@ -11,6 +11,48 @@
 
 .portfolioImage {
   &--featured {
+    
+  }
+}
+
+.portfolioItem {
+  position: relative;
+
+  &--featured {
     grid-column: 1 / 4;
   }
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.85);
+    border: 1px solid #ccc;
+    padding: 3rem;
+  }
+
+}
+
+.portfolioItem {
+  position: relative;
+
+  &::before {
+    content: attr(data-order);
+    display: block;
+    font-size: 100px;
+    position: absolute;
+    z-index: 1;
+    height: 100px;
+    background: white;
+    top: 10px;
+    left: 10px;
+    text-align: center;
+  }
+
+  &--featured::before {
+    content: attr(data-row);
+  }
+
 }

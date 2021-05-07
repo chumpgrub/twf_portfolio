@@ -218,8 +218,8 @@ const ContactForm = () => {
               name="email_me_right_now" 
               value="1" 
               style={{display:'none'}} 
-              tabindex="-1" 
-              autocomplete="off"
+              tabIndex="-1" 
+              autoComplete="off"
               onChange={() => setState({...state, isSpam: true})}
             />
             <button>Get in touch</button>
