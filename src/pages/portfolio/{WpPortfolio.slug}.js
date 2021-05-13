@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { Component } from "react"
 import { graphql } from "gatsby"
 
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
@@ -30,7 +30,7 @@ query PorfolioQuery($id: String!) {
         featured: localFile {
           childImageSharp {
             gatsbyImageData(
-              layout: FULL_WIDTH
+              width: 758
               placeholder: BLURRED
               formats: [AUTO, WEBP, AVIF]
             )
@@ -73,6 +73,7 @@ const PortfolioPhoto = ({ id, index, thumbnail, featured, featuredRow, title, ca
       { active && (
         <div className={`portfolioItem portfolioItem--featured`} style={featuredStyle}>
           <GatsbyImage image={featuredImage} alt={title} />
+          <div className="portfolioItem__info"><h5>{title}</h5><div dangerouslySetInnerHTML={{__html: caption}}/></div>
         </div>
       ) }
     </>
@@ -80,24 +81,88 @@ const PortfolioPhoto = ({ id, index, thumbnail, featured, featuredRow, title, ca
 
 }
 
-const Portfolio = ({data}) => {
+class Portfolio extends Component {
 
+  constructor(props) {
+    super(props)
+
+    console.log(props)
+
+    const { title, excerpt, featuredImage } = props?.data?.wpPortfolio
+    console.log(title, excerpt, featuredImage)
+
+    this.state = {}
+
+  }
+
+  render() {
+    return (
+      <div>PORTFOLIO</div>
+    )
+  }
+  
+
+  /*
   const { title, excerpt, featuredImages } = data?.wpPortfolio
+  const [currentIndex, setCurrentIndex] = useState(0)
   // Set portfolioImages.
   const [ portfolioImages, setPortfolioImages ] = useState( featuredImages?.images && featuredImages.images.map( image => (
     {...image, active: false}
   )))
 
-  const handlePresentation = (e, index, id) => {
+  useEffect(() => {
 
+    const escKeys = ['ArrowRight', 'ArrowLeft']
+    
+    document.addEventListener( 'keydown', (e) => {
+    
+      const {key} = e
+
+      console.log(currentIndex)
+    
+      // If arrowing left or right, let's continiue.
+      if (escKeys.includes(String(key))) {
+
+        let nextIndex = null;
+        
+        // Move forward
+        if (key == 'ArrowRight' && currentIndex < portfolioImages.length) {
+            console.log('move forward')
+            nextIndex = currentIndex + 1
+        }
+        
+        // Navigate back
+        if (key == 'ArrowLeft' && currentIndex > 1) {
+          console.log('move back')
+          nextIndex = currentIndex + 1
+        }
+
+        const updatedPortfolioImages = portfolioImages.map( (image, index) => {
+          if (index === nextIndex) { 
+            return Object.assign({}, {...image}, {active: true})
+          } else {
+            return Object.assign({}, {...image}, {active: false})
+          }
+        })
+
+
+        // Update portfolioImages state.
+        setPortfolioImages(updatedPortfolioImages)
+
+        setCurrentIndex(nextIndex)
+
+      }
+    })
+  }, [currentIndex])
+
+  const handlePresentation = (e, index, id) => {
+    
+    const order = index + 1
     const imageHeight = e.target.offsetHeight
     const elementOffset = e.target.getBoundingClientRect().top
     const y = elementOffset + window.pageYOffset + imageHeight
     window.scrollTo({top: y, behavior: 'smooth'})
-    // console.log(e.target.offsetHeight)
-    // console.log(e.target)
-    // e.target.scrollIntoView()
-    const order = index + 1
+    
 
     // Set clicked image to active and every other to not.
     const updatedPortfolioImages = portfolioImages.map( (image, index) => {
@@ -105,11 +170,11 @@ const Portfolio = ({data}) => {
       if (image.id === id) {
         // If clicked image is currently active then deactivate, otherwise set to active.
         const active = image.active ? false : true
-        // const featuredOrder = (index % 3)
-        // order = order + (index % 3) + 10
-        // console.log(order)
+        // Determine appropriate row for 'featured' image.
         const featuredRow = Math.ceil(order/3) + 1
-        console.log(index, featuredRow)
+        // Update current photo index.
+        if (active) setCurrentIndex(index)
+        // Update clicked object.
         return Object.assign({}, {...image}, {active, order, featuredRow})
       }
       
@@ -119,7 +184,6 @@ const Portfolio = ({data}) => {
     // Update portfolioImages state.
     setPortfolioImages(updatedPortfolioImages)
 
-    console.log(updatedPortfolioImages)
   }
 
   return (
@@ -133,6 +197,7 @@ const Portfolio = ({data}) => {
       </div>
     </Layout>
   )
+  */
 }
 
 export default Portfolio
