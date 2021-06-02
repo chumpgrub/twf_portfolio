@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useCallback } from "react"
+import React, { useState, useEffect, useCallback, useMemo } from "react"
 import { graphql } from "gatsby"
 
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
+import { useSwipeable } from "react-swipeable"
 
 import Layout from "../../components/Layout"
 
@@ -56,38 +57,13 @@ const PortfolioPhotoDetail = ({title, caption}) => {
   )
 }
 
-/**
- * @todo Explore grid re-ordering based on index
- * @see https://stackoverflow.com/questions/45367864/change-the-column-order-in-a-css-grid†
- * 
- * @param {*} param0 
- * @returns 
- */
-const PortfolioPhoto = ({ id, index, thumbnail, title, active, handlePresentation }) => {
-
-  const thumbnailImage = getImage(thumbnail)
-  const imageClass = active ? 'portfolioImage--active' : '';
-
-  return (
-    <GatsbyImage
-      className={`portfolioImage ${imageClass}`}
-      image={thumbnailImage} 
-      alt={title}
-      onClick={(e) => handlePresentation(e, index, id)}
-    />
-  )
-
-}
-
 const Portfolio = ({data}) => {
 
-  const { title, excerpt, featuredImages } = data?.wpPortfolio || []
+  const { title, excerpt, featuredImages } = data?.wpPortfolio || [{ title: null, excerpt: null, featuredImages: {images: []}}]
+  
   // Set portfolioImages.
-  const [ portfolioImages, setPortfolioImages ] = useState( featuredImages?.images && featuredImages.images.map( (image, index) => {
-    // Set the first item to active and rest not.
-    const active = index === 0 ? true : false
-    return {...image, active: index === 0}
-  }))
+  const portfolioImages = useMemo(() => (featuredImages?.images || []), [featuredImages])
+  const portfolioImagesTotal = portfolioImages.length
 
   // Manage current item index.
   const [ currentIndex, setCurrentIndex ] = useState(0)
@@ -96,6 +72,30 @@ const Portfolio = ({data}) => {
 
   // First portfolio item becomes the featured image.
   const [ featuredImage, setFeaturedImage ] = useState( featuredPortfolioImage )
+
+  const goToNextImage = useCallback(() => {
+    setCurrentIndex(c => {
+      if (c < (portfolioImagesTotal - 1)) {
+        return c + 1
+      }
+      return c
+    })
+  }, [ setCurrentIndex, portfolioImagesTotal ])
+
+  const goToPreviousImage = useCallback(() => {
+    setCurrentIndex(c => {
+      if (c >= 1) {
+        return c - 1
+      }
+      return c
+    })
+  }, [ setCurrentIndex ])
+
+  const handlers = useSwipeable({
+    onSwiped: (eventData) => console.log("User Swiped!", eventData),
+    onSwipedLeft: () => goToNextImage(),
+    onSwipedRight: () => goToPreviousImage()
+  })
 
   const handleKeyPress = useCallback( event => {
 
@@ -107,16 +107,17 @@ const Portfolio = ({data}) => {
     if (escKeys.includes(String(key))) {
       
       // Move forward
-      if (key == 'ArrowRight') {
-        return goToNextImage()
+      if (key === 'ArrowRight') {
+        goToNextImage()
+        return
       }
       
       // Navigate back
-      return goToPreviousImage()
+      goToPreviousImage()
       
     }
-    
-  })
+
+  }, [ goToNextImage, goToPreviousImage ])
 
   useEffect(() => {
     
@@ -126,30 +127,24 @@ const Portfolio = ({data}) => {
       window.removeEventListener( 'keydown', handleKeyPress )
     }
 
-  }, [currentIndex, featuredImage, portfolioImages])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  const goToNextImage = () => {
-    let nextIndex = currentIndex
-    if (currentIndex < portfolioImages.length) {
-      nextIndex++
-      setFeaturedImageByIndex(nextIndex)
-      setCurrentIndex(nextIndex)
-    }
-  }
+  useEffect(() => {
+    
+    // setFeaturedImageByIndex && setFeaturedImageByIndex(currentIndex)
 
-  const goToPreviousImage = () => {
-    let nextIndex = currentIndex
-    if (currentIndex >= 1) {
-      nextIndex--
-      setFeaturedImageByIndex(nextIndex)
-      setCurrentIndex(nextIndex)
-    }
-  }
+    // const setFeaturedImageByIndex = (currentIndex) => {
+    //   const featuredImage = portfolioImages.filter( (image, index) => index === currentIndex )
+    //   if (featuredImage && featuredImage.length) setFeaturedImage(featuredImage[0])
+    // }
 
-  const setFeaturedImageByIndex = (nextIndex) => {
-    const featuredImage = portfolioImages.filter( (image, index) => index === nextIndex )
+    const featuredImage = portfolioImages.filter( (image, index) => index === currentIndex )
     if (featuredImage && featuredImage.length) setFeaturedImage(featuredImage[0])
-  }
+    
+  }, [ currentIndex, portfolioImages, setFeaturedImage ])
+
+  
 
   const handleThumbnailClick = (e, index, id) => {
     const featuredImage = portfolioImages.filter( (image) => image.id === id )
@@ -157,21 +152,24 @@ const Portfolio = ({data}) => {
     setCurrentIndex(index)
   }
 
+  const myCount = ((currentIndex + 1) <= portfolioImagesTotal) ? currentIndex + 1 : currentIndex
+
   return (
     <Layout>
-      <h1>{ title }</h1>
+      <h1>{ title }: {myCount}</h1>
       <div dangerouslySetInnerHTML={{__html: excerpt}} />
       <div className="portfolio">
-        <div className="portfolio__featured">
+        <div className="portfolio__featured" {...handlers}>
           { featuredImage && <GatsbyImage image={getImage(featuredImage.featured)} alt={featuredImage.title} /> }
         </div>
         <div className="portfolio__right">
           {
-            portfolioImages && <PortfolioCount current={currentIndex} total={portfolioImages.length}/>
+            portfolioImages && portfolioImages.length > 1 && <PortfolioCount current={currentIndex} total={portfolioImages.length}/>
           }
           <div className="portfolio__grid">
             { 
               portfolioImages &&
+              portfolioImages.length > 1 &&
               portfolioImages.map( (image, index ) => {
                 return (
                   <GatsbyImage 

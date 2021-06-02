@@ -1,7 +1,8 @@
 import React, { useState } from "react"
 import { useStaticQuery, graphql } from "gatsby"
+import { gql } from "apollo-boost"
 
-import gql from "graphql-tag"
+// import gql from "graphql-tag"
 import { Mutation } from "react-apollo"
 
 import TextField from "../FormFields/TextField"
@@ -27,11 +28,6 @@ const CONTACT_MUTATION = gql`
     }
   }
 `
-
-const capitalize = (s) => {
-  if (typeof s !== 'string') return ''
-  return s.charAt(0).toUpperCase() + s.slice(1)
-}
 
 const ContactForm = () => {
 
@@ -101,8 +97,6 @@ const ContactForm = () => {
   `)
 
   const { fields } = data?.wpGravityFormsForm?.formFields
-
-  console.log(fields)
 
   const [state, setState] = useState({
     name: {value: '', error: false},
@@ -195,6 +189,8 @@ const ContactForm = () => {
         return (
           <form onSubmit={(e) => handleSubmit(e, submitGravityFormsForm)}>
             {fields && fields.map(field => {
+
+              if (!field || field.type === 'checkbox') return null
       
               const TagName = components[field.type]
               const fieldKey = String(field.adminLabel).toLowerCase().replace(/\s/g, '')
