@@ -131,19 +131,10 @@ const Portfolio = ({data}) => {
   }, [])
 
   useEffect(() => {
-    
-    // setFeaturedImageByIndex && setFeaturedImageByIndex(currentIndex)
-
-    // const setFeaturedImageByIndex = (currentIndex) => {
-    //   const featuredImage = portfolioImages.filter( (image, index) => index === currentIndex )
-    //   if (featuredImage && featuredImage.length) setFeaturedImage(featuredImage[0])
-    // }
-
     const featuredImage = portfolioImages.filter( (image, index) => index === currentIndex )
     if (featuredImage && featuredImage.length) setFeaturedImage(featuredImage[0])
     
   }, [ currentIndex, portfolioImages, setFeaturedImage ])
-
   
 
   const handleThumbnailClick = (e, index, id) => {
@@ -152,11 +143,9 @@ const Portfolio = ({data}) => {
     setCurrentIndex(index)
   }
 
-  const myCount = ((currentIndex + 1) <= portfolioImagesTotal) ? currentIndex + 1 : currentIndex
-
   return (
     <Layout>
-      <h1>{ title }: {myCount}</h1>
+      <h1>{ title }</h1>
       <div dangerouslySetInnerHTML={{__html: excerpt}} />
       <div className="portfolio">
         <div className="portfolio__featured" {...handlers}>
