@@ -14,7 +14,6 @@ import Footer from "../Footer"
 import "./Layout.scss"
 
 const Layout = ({ children }) => {
-
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -27,8 +26,8 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     // Disable right-click for images.
-    document.addEventListener( 'contextmenu', (e) => {
-      if (e.target.tagName === 'IMG') {
+    document.addEventListener("contextmenu", e => {
+      if (e.target.tagName === "IMG") {
         e.preventDefault()
         e.stopPropagation()
       }
@@ -40,7 +39,7 @@ const Layout = ({ children }) => {
       <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
       <div className="container">
         <main>{children}</main>
-        <Footer/>
+        <Footer />
       </div>
     </>
   )

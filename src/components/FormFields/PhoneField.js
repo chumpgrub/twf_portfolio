@@ -1,18 +1,21 @@
 import React from "react"
 
 const PhoneField = ({ id, label, error, required, handleChange }) => {
-  const setRequired = required ? 'required' : ''
-  const setError = error ? 'error' : ''
+  const setRequired = required ? "required" : ""
+  const setError = error ? "error" : ""
   return (
     <div className={`formRow formRow--phone ${setRequired} ${setError}`}>
-      <label htmlFor={id}>{label}{required && <span>*</span>}</label>
+      <label htmlFor={id}>
+        {label}
+        {required && <span>*</span>}
+      </label>
       <div className="inputWrapper">
-        <input 
+        <input
           className={`formInput`}
-          name={id} 
-          type="text" 
+          name={id}
+          type="text"
           required={setRequired}
-          onBlur={(e) => handleChange(e)}
+          onBlur={e => handleChange(e)}
         />
       </div>
     </div>

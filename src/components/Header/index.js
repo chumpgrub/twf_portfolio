@@ -9,13 +9,18 @@ import "./Header.scss"
 const Header = ({ siteTitle }) => (
   <header className="siteHeader container">
     <div className="siteHeader__logo">
-      ---------------------------------<br/>
-      ---------------------------------<br/>
-      ---------- <Link to="/">{siteTitle}</Link> ----------<br/>
-      ---------------------------------<br/>
-      ---------------------------------<br/>
+      ---------------------------------
+      <br />
+      ---------------------------------
+      <br />
+      ---------- <Link to="/">{siteTitle}</Link> ----------
+      <br />
+      ---------------------------------
+      <br />
+      ---------------------------------
+      <br />
     </div>
-    <PrimaryMenu/>
+    <PrimaryMenu />
   </header>
 )
 

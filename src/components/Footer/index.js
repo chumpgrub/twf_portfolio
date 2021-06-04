@@ -3,7 +3,9 @@ import { Link } from "gatsby"
 
 const Footer = () => (
   <footer>
-    © {new Date().getFullYear()}{` `}<Link to={`/copyright/`}>Copyright</Link>
+    © {new Date().getFullYear()}
+    {` `}
+    <Link to={`/copyright/`}>Copyright</Link>
   </footer>
 )
 

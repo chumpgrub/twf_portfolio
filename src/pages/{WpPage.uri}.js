@@ -14,14 +14,14 @@ export const query = graphql`
   }
 `
 
-const Photo = ({data}) => {
+const Photo = ({ data }) => {
   console.log(data)
   const { title, content, slug } = data?.wpPage
   return (
     <Layout>
       <h1>{title}</h1>
-      <div dangerouslySetInnerHTML={{__html: content}}/>
-      { slug && slug === 'book' && <ContactForm /> }
+      <div dangerouslySetInnerHTML={{ __html: content }} />
+      {slug && slug === "book" && <ContactForm />}
     </Layout>
   )
 }

@@ -18,8 +18,8 @@ const IndexPage = () => (
       query={graphql`
         query ServiceMenuQuery {
           menu: allWpMenuItem(
-            filter: {menu: {node: {name: {eq: "Photo Services"}}}}
-            sort: {order: ASC, fields: order}
+            filter: { menu: { node: { name: { eq: "Photo Services" } } } }
+            sort: { order: ASC, fields: order }
           ) {
             items: nodes {
               id
@@ -29,15 +29,19 @@ const IndexPage = () => (
           }
         }
       `}
-      render={ data => {
+      render={data => {
         console.log(data)
         const styles = {
-          display: 'flex',
-          flexDirection: 'column'
+          display: "flex",
+          flexDirection: "column",
         }
         return (
           <nav className={`menu menuHomepage`} style={styles}>
-            { data?.menu?.items.map( item => (<Link className={`h5`} key={item.id} to={item.path}>{item.label}</Link>))}
+            {data?.menu?.items.map(item => (
+              <Link className={`h5`} key={item.id} to={item.path}>
+                {item.label}
+              </Link>
+            ))}
           </nav>
         )
       }}

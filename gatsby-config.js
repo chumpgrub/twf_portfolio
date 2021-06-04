@@ -36,9 +36,9 @@ module.exports = {
       resolve: `gatsby-plugin-web-font-loader`,
       options: {
         google: {
-          families: ['Courier Prime']
-        }
-      }
+          families: ["Courier Prime"],
+        },
+      },
     },
     {
       resolve: `gatsby-source-wordpress`,
@@ -56,9 +56,9 @@ module.exports = {
       options: {
         sassOptions: {
           includePaths: ["src/scss/vars", "src/scss"],
-        }
+        },
         // additionalData: `@import "${__dirname}/src/scss/vars";`,
-      }
-    }
+      },
+    },
   ],
 }
