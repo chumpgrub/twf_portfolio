@@ -60,5 +60,15 @@ module.exports = {
         // additionalData: `@import "${__dirname}/src/scss/vars";`,
       },
     },
+    {
+      resolve: `gatsby-source-gravityforms`,
+      options: {
+        baseUrl: `https://twf.markfurrow.com`,
+        api: {
+          key: `ck_46c2eb97f78f40683d49f31623075a053254a3a6`,
+          secret: `cs_2c636a24c26d1b5e593849a1d4d97f7eae95be3e`,
+        }
+      }
+    }
   ],
 }
